@@ -1,5 +1,9 @@
 @echo off
 REM 🛠️ Build script for JVH-RClone-Tool executable
+REM This script uses PyInstaller to create a standalone executable for the GUI application.
+
+REM Ensure the script is run from the directory where it is located
+cd /d "%~dp0"
 
 REM Activate virtual environment
 call .venv\Scripts\activate.bat
