@@ -1,30 +1,32 @@
 @echo off
-echo Current dir: %cd%
-cd /d "%~dp0"
-echo After cd, dir: %cd%
+SET PYI=.\.venv\Scripts\pyinstaller.exe
+SET SCRIPT=gui\folder_selector.py
+SET ICON=assets\sync.ico
 
-REM Print presence of critical folders/files
-if exist "gui\folder_selector.py" (echo ✅ folder_selector.py found) else (echo ❌ Missing: folder_selector.py)
-if exist "assets\sync.ico" (echo ✅ sync.ico found) else (echo ⚠️ Missing: sync.ico)
-if exist ".venv\Scripts\pyinstaller.exe" (echo ✅ PyInstaller found) else (echo ❌ Missing: pyinstaller.exe)
+REM Check PyInstaller exists
+IF NOT EXIST "%PYI%" (
+    echo ❌ PyInstaller not found at %PYI%
+    pause
+    exit /b
+)
 
-REM Skip actual build
-pause
+REM Check script exists
+IF NOT EXIST "%SCRIPT%" (
+    echo ❌ Script not found at %SCRIPT%
+    pause
+    exit /b
+)
 
-REM 2. Activate Python 3.10 environment
-call ".venv\Scripts\activate.bat"
+REM Check icon exists
+IF NOT EXIST "%ICON%" (
+    echo ⚠️ Icon not found at %ICON%
+    echo Continuing without icon...
+    SET ICON=
+) ELSE (
+    SET ICON=--icon="%ICON%"
+)
 
-REM 3. Clean build artifacts (skip folder_selector.spec entirely)
-rmdir /s /q build 2>nul
-rmdir /s /q dist 2>nul
-
-REM 4. Run PyInstaller directly from .venv (no reliance on PATH)
-".venv\Scripts\pyinstaller.exe" "gui\folder_selector.py" ^
-    --onefile ^
-    --windowed ^
-    --name JVH-SyncConfig ^
-    --icon="assets\sync.ico"
-
-echo.
-echo ✅ Done. Check dist\JVH-SyncConfig.exe
+REM Run PyInstaller
+"%PYI%" %SCRIPT% --noconfirm --clean --windowed %ICON%
+echo ✅ Build completed
 pause
