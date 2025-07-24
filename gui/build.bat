@@ -14,11 +14,11 @@ rmdir /s /q "%~dp0dist"
 del /q "%~dp0folder_selector.spec"
 
 REM Run PyInstaller with options
-pyinstaller "%~dp0gui\folder_selector.py" ^
+pyinstaller "%~dp0folder_selector.py" ^
     --onefile ^
     --windowed ^
     --name JVH-SyncConfig ^
-    --icon="%~dp0assets\sync.ico"
+    --icon="%~dp0..\assets\sync.ico"
 
 echo.
 echo ✅ Build complete: dist\JVH-SyncConfig.exe
