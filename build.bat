@@ -1,5 +1,5 @@
 @echo off
-SET PYI=.\.venv\Scripts\pyinstaller.exe
+SET PYI=..\..\jvh-rclone-tool\.venv\Scripts\pyinstaller.exe
 SET SCRIPT=gui\folder_selector.py
 SET ICON=assets\sync.ico
 
