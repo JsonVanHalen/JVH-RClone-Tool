@@ -20,7 +20,7 @@ IF EXIST "%~dp0assets\sync.ico" (
 )
 
 REM Run PyInstaller with options
-pyinstaller "%~dp0gui\folder_selector.py" ^
+"%~dp0.venv\Scripts\pyinstaller.exe" "%~dp0gui\folder_selector.py" ^
     --onefile ^
     --windowed ^
     --name JVH-SyncConfig ^
