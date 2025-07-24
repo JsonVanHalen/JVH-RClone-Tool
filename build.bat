@@ -1,26 +1,23 @@
 @echo off
+REM 📦 JVH-SyncConfig build script (stable, minimal, explicit)
+
+REM 1. Move to repo root
 cd /d "%~dp0"
-call "%~dp0.venv\Scripts\activate.bat"
 
-REM Clean previous builds
-rmdir /s /q "%~dp0build"
-rmdir /s /q "%~dp0dist"
-del /q "%~dp0gui\folder_selector.spec"
+REM 2. Activate Python 3.10 environment
+call ".venv\Scripts\activate.bat"
 
-REM Check if icon exists
-IF EXIST "%~dp0assets\sync.ico" (
-    SET ICON_FLAG=--icon="%~dp0assets\sync.ico"
-) ELSE (
-    SET ICON_FLAG=
-)
+REM 3. Clean build artifacts (skip folder_selector.spec entirely)
+rmdir /s /q build 2>nul
+rmdir /s /q dist 2>nul
 
-REM Run PyInstaller from .venv
-"%~dp0.venv\Scripts\pyinstaller.exe" "%~dp0gui\folder_selector.py" ^
+REM 4. Run PyInstaller directly from .venv (no reliance on PATH)
+".venv\Scripts\pyinstaller.exe" "gui\folder_selector.py" ^
     --onefile ^
     --windowed ^
     --name JVH-SyncConfig ^
-    %ICON_FLAG%
+    --icon="assets\sync.ico"
 
 echo.
-echo ✅ Build complete: dist\JVH-SyncConfig.exe (if no errors above)
+echo ✅ Done. Check dist\JVH-SyncConfig.exe
 pause
